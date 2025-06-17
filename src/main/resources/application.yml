@@ -49,6 +49,12 @@ spring:
               maxBackOff: 500ms
               factor: 2
               basedOnPreviousValue: false
+  data:
+    redis:
+      timeout: 1s
+      connect-timeout: 2s
+      port: 6379
+      host: localhost
 
 resilience4j:
   circuitbreaker:
