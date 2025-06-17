@@ -24,14 +24,19 @@ spring:
           uri: ${CATALOG_SERVICE_URL:http://localhost:9001}
           predicates:
             - Path=/books/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: catalogCircuitBreaker
+                fallbackUri: forward:/catalog-fallback
         - id: order-rout
           uri: ${ORDER_SERVICE_URL:http://localhost:9002}/orders
           predicates:
             - Path=/orders/**
-        - id: test
-          uri: http://httpbin.org
-          predicates:
-            - Path=/test/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: orderCircuitBreaker
       default-filters:
         - name: Retry
           args:
@@ -44,3 +49,16 @@ spring:
               maxBackOff: 500ms
               factor: 2
               basedOnPreviousValue: false
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 20
+        permitted-number-of-calls-in-half-open-state: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 15000
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 5s
