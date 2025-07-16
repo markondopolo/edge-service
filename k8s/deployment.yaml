@@ -31,5 +31,5 @@ spec:
               value: http://order-service
             - name: SPRING_DATA_REDIS_HOST
               value: polar-redis
-            - name: SPRING_CLOUD_CONFIG_URL
+            - name: SPRING_CLOUD_CONFIG_URI
               value: http://config-service
