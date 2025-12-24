@@ -1,3 +1,10 @@
 spring:
   config:
     import: "configserver:"
+
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://polar-keycloak/realms/PolarBookshop
